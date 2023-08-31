@@ -3,7 +3,7 @@ import pandas as pd
 import os
 
 from env import get_connection
-
+from sklearn.model_selection import train_test_split
 
 # imports edroomcnt, bathroomcnt, calculatedfinishedsquarefeet, taxvaluedollarcnt, yearbuilt, taxamount, and fips from the zillow_2017 table
 def get_zillow():
@@ -35,3 +35,14 @@ def drop_zill(zillow):
                                   'calculatedfinishedsquarefeet': 'sqft', 'taxvaluedollarcnt': 'value', 
                                   'yearbuilt': 'year', 'taxamount':'tax'})
     return zillow
+
+
+
+def train_val_test(df, seed = 55):
+    train, val_test = train_test_split(df, train_size = 0.7,
+                                       random_state = seed)
+    
+    val, test = train_test_split(val_test, train_size = 0.5,
+                                 random_state = seed)
+    
+    return train, val, test
