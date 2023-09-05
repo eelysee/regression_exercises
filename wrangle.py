@@ -21,10 +21,10 @@ def get_zillow():
                 '''
         
         url = get_connection('zillow')
-        filename = pd.read_sql(query,url)
-        filename.to_csv('zillow.csv', index=False)
+        df = pd.read_sql(query,url)
+        df.to_csv(filename, index=False)
         
-        return filename
+        return df
     
     
 # Dropping all null values
@@ -46,3 +46,4 @@ def train_val_test(df, seed = 55):
                                  random_state = seed)
     
     return train, val, test
+
