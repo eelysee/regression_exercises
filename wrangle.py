@@ -5,8 +5,13 @@ import os
 from env import get_connection
 from sklearn.model_selection import train_test_split
 
-# imports edroomcnt, bathroomcnt, calculatedfinishedsquarefeet, taxvaluedollarcnt, yearbuilt, taxamount, and fips from the zillow_2017 table
+# 
 def get_zillow():
+    '''
+    imports bedroomcnt, bathroomcnt, calculatedfinishedsquarefeet, taxvaluedollarcnt, yearbuilt, taxamount, and fips from the zillow_2017 table
+    
+    cache's dataframe in a .csv
+    '''
     filename = 'zillow.csv'
     
     if os.path.isfile(filename):
@@ -27,9 +32,13 @@ def get_zillow():
         return df
     
     
-# Dropping all null values
-# Drops 12,628 observations    
+  
 def drop_zill(zillow):    
+    '''
+    Dropping all null values
+    Drops 12,628 observations  
+    '''
+    
     zillow = zillow.dropna()
     zillow = zillow.rename(columns = {'bedroomcnt':'bed', 'bathroomcnt':'bath', 
                                   'calculatedfinishedsquarefeet': 'sqft', 'taxvaluedollarcnt': 'value', 
@@ -47,3 +56,18 @@ def train_val_test(df, seed = 55):
     
     return train, val, test
 
+
+def X_y_split(train, val, target):
+    '''
+    Splits train and val into X and Y splits for target testing.
+    
+    target is target variable entered as the name of the column only in quotes 
+    
+    returns X_train, y_train , X_val , y_val
+    '''
+    t = target
+    X_train = train.drop(columns=[t])
+    y_train = train[t]
+    X_val = val.drop(columns=[t])
+    y_val = val[t]
+    return X_train, y_train , X_val , y_val
